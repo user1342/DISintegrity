@@ -26,7 +26,7 @@ pip install -r REQUIREMENTS.txt
 ```
 3) **Download APKTool for your system from [their website](https://ibotpeaches.github.io/Apktool/documentation/). and make sure it's installed and available in your PATH.**
 
-PocketSmali has been tested on Windows 11.
+DIS{integrity} has been tested on Windows 11.
 
 ## Running
 DIS{integrity} takes the following arguments. '''-apk''' is required. 
