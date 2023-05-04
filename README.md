@@ -67,7 +67,7 @@ DIS{integrity} is an open-source project and welcomes contributions from the com
 DIS{integrity} follows the Contributor Covenant Code of Conduct. Please make sure [to review](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md). and adhere to this code of conduct when contributing to DIS{integrity}.
 
 # 🐛 Bug Reports and Feature Requests
-If you encounter a bug or have a suggestion for a new feature, please open an issue in the GitHub repository. Please provide as much detail as possible, including steps to reproduce the issue or a clear description of the proposed feature. Your feedback is valuable and will help improve Obfu[DE]scate for everyone.
+If you encounter a bug or have a suggestion for a new feature, please open an issue in the GitHub repository. Please provide as much detail as possible, including steps to reproduce the issue or a clear description of the proposed feature. Your feedback is valuable and will help improve DIS{integrity} for everyone.
 
 # 💛 Thanks
 This tool wouldn't work without [APKTool](https://ibotpeaches.github.io/Apktool/documentation/)! 
