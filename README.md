@@ -49,7 +49,7 @@ python DISintegrity.py -apk <path to apk>
 ```
 
 <p align="center">
-  <img src="demo.gif" width="400" />
+  <img src="demo.gif" width="800" />
 </p>
 
 # 🙏 Contributions
