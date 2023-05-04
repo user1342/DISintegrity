@@ -37,11 +37,9 @@ Detect root checks in Android APK files
 
 arguments:
   -h, --help            show this help message and exit
-  -apk APK_FILE_PATH, --apk_file_path APK_FILE_PATH
-                        the path to the APK file to analyze
-  -o OUTPUT_DIR, --output-dir OUTPUT_DIR
-                        the output directory to store the analysis results
-  --apktool APKTOOL     the path to the apktool executable
+  -apk APK_FILE_PATH, --apk_file_path APK_FILE_PATH the path to the APK file to analyze
+  -o OUTPUT_DIR, --output-dir OUTPUT_DIR the output directory to store the analysis results
+  --apktool APKTOOL     the path to the apktool executable if not on PATH
 ```
 
 Then run DIS{integrity} as follows. Afterwhich a HTML output file will be created.
