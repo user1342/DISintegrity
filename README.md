@@ -29,7 +29,7 @@ pip install -r REQUIREMENTS.txt
 DIS{integrity} has been tested on Windows 11.
 
 ## Running
-DIS{integrity} takes the following arguments. '''-apk''' is required. 
+DIS{integrity} takes the following arguments. ```-apk``` is required. 
 
 ```
 Detect root checks in Android APK files
