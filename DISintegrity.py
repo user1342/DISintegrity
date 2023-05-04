@@ -368,6 +368,9 @@ def main(args):
     apk_file_path = args.apk_file_path
     output_dir = args.output_dir
 
+    if apk_file_path == None:
+        raise Exception("APK Path required, use '-apk'.")
+
     if not output_dir:
         output_dir = os.path.splitext(os.path.basename(apk_file_path))[0]
 
