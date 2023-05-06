@@ -80,7 +80,7 @@ DIS{Integrity} performs string pattern matching against symbols found in files i
     ("isDeviceCompromised", "Proprietary"),  # Custom code for checking if device is compromised
     ("rootConfirmation", "Proprietary"),  # Custom code for confirming if device is rooted
     ("rootStatus", "Proprietary"),  # Custom code for checking root status
-    ("isDeviceJailbroken", "Proprietary"),  # Custom code for checking if device is jailbroken
+    ("isDeviceJailbroken", "Proprietary"),  # Custom code for checking if device is jailbroken. While jailbroken isn't often used when referring to Android. This is here as a catch all.
     ("jailbreakDetection", "Proprietary"),  # Custom code for detecting jailbroken devices
     ("checkJailbreak", "Proprietary"),  # Same as above, but shorter
     ("detectJailbreak", "Proprietary"),  # Same as above, but shorter
