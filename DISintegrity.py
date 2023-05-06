@@ -7,94 +7,6 @@ import argparse
 from jinja2 import Template
 from tqdm import tqdm
 
-def get_strings_from_binary(binary_file):
-    # Define a regular expression to match printable ASCII characters
-    printable_regex = re.compile(rb'[\x20-\x7E]{5,}')
-
-    # Read the binary file into memory
-    with open(binary_file, 'rb') as f:
-        binary_data = f.read()
-
-    # Search for printable strings in the binary data using the regular expression
-    printable_strings = printable_regex.findall(binary_data)
-    strings = []
-    # Convert the byte strings to regular strings and print them
-    for s in printable_strings:
-        strings.append(s.decode('ascii'))
-
-    return strings
-
-def is_subpath(subpath, path):
-    '''
-    Simple function to identify if one path is a subpath of anouther. Used for only checking directories that are
-    part of the class path.
-    :return: boolean (True/ False)
-    '''
-    subpath = os.path.normpath(subpath)
-    path = os.path.normpath(path)
-
-    # Split subpath and path into components
-    subpath_parts = subpath.split(os.sep)
-    path_parts = path.split(os.sep)
-
-    # Find subpath in path
-    for i in range(len(path_parts) - len(subpath_parts) + 1):
-        if path_parts[i:i + len(subpath_parts)] == subpath_parts:
-            return True
-
-    return False
-
-
-def extract_apk(apk_file_path, output_dir, apk_tool_executable):
-    """Use apktool to disassemble the APK file."""
-    print("Extracting APK at '{}'. This may take some time...".format(apk_file_path))
-    with subprocess.Popen([apk_tool_executable, "d", apk_file_path, "-o", output_dir], stdin=subprocess.PIPE,
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
-        stdout, stderr = process.communicate(input="\n")
-        if process.returncode != 0:
-            print("An error occurred while running apktool for APK:")
-            print(stderr)
-            exit(1)
-
-
-def check_apktool_on_path():
-    """Check if apktool is on the path and return the executable name."""
-    if shutil.which("apktool.bat"):
-        return "apktool.bat"
-    elif shutil.which("apktool.sh"):
-        return "apktool.sh"
-    elif shutil.which("apktool"):
-        return "apktool"
-    else:
-        return None
-
-
-def run_apktool(apk_tool_executable, apk_file_path, output_dir):
-    """Run apktool to disassemble the APK file."""
-    print("Extracting APK at '{}'".format(apk_file_path))
-    with subprocess.Popen([apk_tool_executable, "d", apk_file_path, "-o", output_dir], stdin=subprocess.PIPE,
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
-        # Wait for the process to finish and capture the console output
-        stdout, stderr = process.communicate(input="\n")
-
-        # Check if the command was successful
-        if process.returncode != 0:
-            print("An error occurred while running apktool:")
-            print(stderr)
-            exit(1)
-
-
-def get_smali_files(apk_dir, allow_path):
-    """Get a list of all SMALI files in the disassembled APK directory."""
-    smali_files = []
-    file_to_path_dict = {}
-    for dirpath, dirnames, filenames in tqdm(os.walk(apk_dir), desc="Finding SMALI files"):
-        if is_subpath(allow_path, dirpath):
-            for filename in filenames:
-                if filename.endswith(".smali"):
-                    smali_files.append(os.path.join(dirpath, filename))
-                    file_to_path_dict[filename] = dirpath
-    return smali_files, file_to_path_dict
 
 root_detection_keywords = [
     ("SafetyNet", "Google Play SafetyNet"),  # Google Play SafetyNet API for checking device integrity
@@ -158,23 +70,100 @@ root_detection_keywords = [
     ("jailbreakDetectionCheck", "Proprietary"),  # Custom code for checking if jailbreak is detected
 ]
 
+def get_strings_from_binary(binary_file):
+    # Define a regular expression to match printable ASCII characters
+    printable_regex = re.compile(rb'[\x20-\x7E]{5,}')
+
+    # Read the binary file into memory
+    with open(binary_file, 'rb') as f:
+        binary_data = f.read()
+
+    # Search for printable strings in the binary data using the regular expression
+    printable_strings = printable_regex.findall(binary_data)
+    return [s.decode('ascii') for s in printable_strings]
+
+
+def is_subpath(subpath, path):
+    '''
+    Simple function to identify if one path is a subpath of anouther. Used for only checking directories that are
+    part of the class path.
+    :return: boolean (True/ False)
+    '''
+    subpath = os.path.normpath(subpath)
+    path = os.path.normpath(path)
+
+    # Split subpath and path into components
+    subpath_parts = subpath.split(os.sep)
+    path_parts = path.split(os.sep)
+
+    return any(
+        path_parts[i : i + len(subpath_parts)] == subpath_parts
+        for i in range(len(path_parts) - len(subpath_parts) + 1)
+    )
+
+
+def extract_apk(apk_file_path, output_dir, apk_tool_executable):
+    """Use apktool to disassemble the APK file."""
+    print(f"Extracting APK at '{apk_file_path}'. This may take some time...")
+
+    if apk_tool_executable.endswith(".jar"):
+        apk_tool_executable = f"java -jar {apk_tool_executable}"
+
+    shell_command = f"{apk_tool_executable} d -f {apk_file_path} -o {output_dir}"
+    with subprocess.Popen(shell_command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                          stderr=subprocess.PIPE, universal_newlines=True) as process:
+        stdout, stderr = process.communicate(input="\n")
+        if process.returncode != 0:
+            print("An error occurred while running apktool for APK:")
+            print(stderr)
+            exit(1)
+
+
+def check_apktool_on_path():
+    """Check if apktool is on the path and return the executable name."""
+    if shutil.which("apktool.bat"):
+        return "apktool.bat"
+    elif shutil.which("apktool.sh"):
+        return "apktool.sh"
+    elif shutil.which("apktool"):
+        return "apktool"
+    else:
+        return None
+
+
+def get_smali_files(apk_dir, allow_path):
+    """Get a list of all SMALI files in the disassembled APK directory."""
+    smali_files = []
+    file_to_path_dict = {}
+    for dirpath, dirnames, filenames in tqdm(os.walk(apk_dir), desc="Finding SMALI files"):
+        if is_subpath(allow_path, dirpath):
+            for filename in filenames:
+                if filename.endswith(".smali"):
+                    smali_files.append(os.path.join(dirpath, filename))
+                    file_to_path_dict[filename] = dirpath
+    return smali_files, file_to_path_dict
+
+
 def search_for_keywords(file_path, keywords):
     results = []
     with open(file_path, "r") as f:
         content = f.readlines()
         for i, line in enumerate(content):
-            for keyword, check_type in keywords:
-                if keyword in line:
-                    results.append((i + 1, line.strip(), keyword, check_type))
+            results.extend(
+                (i + 1, line.strip(), keyword, check_type)
+                for keyword, check_type in keywords
+                if keyword in line
+            )
     return results
+
 
 def search_smali_files(smali_files, keywords):
     detected_files = []
     for smali_file in smali_files:
-        keyword_results = search_for_keywords(smali_file, keywords)
-        if keyword_results:
+        if keyword_results := search_for_keywords(smali_file, keywords):
             detected_files.append((smali_file, keyword_results))
     return detected_files
+
 
 def search_binary_files(apk_dir, keywords):
     detected_files = []
@@ -189,6 +178,7 @@ def search_binary_files(apk_dir, keywords):
                             detected_files.append((file_path, keyword, check_type))
                             break
     return detected_files
+
 
 def create_html_file(detected_smali_files, detected_binary_files, output_dir):
     template_str = '''
@@ -306,7 +296,9 @@ def create_html_file(detected_smali_files, detected_binary_files, output_dir):
         f.write(html)
 
     webbrowser.open_new_tab(os.path.join(output_dir, 'output.html'))
-    print("Output file created at {}".format(os.path.join(output_dir, 'output.html')))
+    print(f"Output file created at {os.path.join(output_dir, 'output.html')}")
+
+
 def detect_checks_in_smali_files(file_paths, keywords):
     detected_smali_files = {}
 
@@ -341,6 +333,7 @@ def detect_checks_in_smali_files(file_paths, keywords):
 
     return detected_smali_files
 
+
 def detect_checks_in_binary_files(binary_files, keywords):
     detected_binary_files = {}
 
@@ -352,10 +345,7 @@ def detect_checks_in_binary_files(binary_files, keywords):
         strings = get_strings_from_binary(binary_file)
         file_keywords = {}
         for keyword, check_type in keywords:
-            count = 0
-            for string_in_binary in strings:
-                if keyword in string_in_binary:
-                    count += 1
+            count = sum(keyword in string_in_binary for string_in_binary in strings)
             if count > 0:
                 file_keywords[keyword] = (count, check_type)
         if file_keywords:
@@ -363,12 +353,13 @@ def detect_checks_in_binary_files(binary_files, keywords):
 
     return detected_binary_files
 
+
 def main(args):
     apk_tool_executable = args.apktool
     apk_file_path = args.apk_file_path
     output_dir = args.output_dir
 
-    if apk_file_path == None:
+    if apk_file_path is None:
         raise Exception("APK Path required, use '-apk'.")
 
     if not output_dir:
@@ -376,10 +367,6 @@ def main(args):
 
     if not apk_tool_executable:
         apk_tool_executable = check_apktool_on_path()
-        if not apk_tool_executable:
-            print("Apktool not found. Please provide the path to the apktool executable using --apktool.")
-            exit(1)
-
     if not apk_tool_executable:
         print("Apktool not found. Please provide the path to the apktool executable using --apktool.")
         exit(1)
@@ -400,6 +387,7 @@ def main(args):
 
     # Create the HTML file
     create_html_file(detected_smali_files,detected_binary_files, output_dir)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detect root checks in Android APK files')
