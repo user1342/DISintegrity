@@ -53,7 +53,9 @@ python DISintegrity.py -apk <path to apk>
 </p>
 
 # 🔎 Behind The Scenes
-DIS{Integrity} performs string pattern matching against symbols found in files inside of the APK. When these are matched against strings inside of SMALI files, they are listed in the output with a code block of the SMALI, while when found as a string in another (i.e. ```.so``` or ```.bin``` file), the file location is displayed. The strings used for this matching can be seen below:
+DIS{Integrity} performs string pattern matching against symbols found in files inside of the APK. When these are matched against strings inside of SMALI files, they are listed in the output with a code block of the SMALI, while when found as a string in another (i.e. ```.so``` or ```.bin``` file), the file location is displayed. Due to this, DIS{Integrity} will not work on heavily obfuscated APKs. If you find yourself working on such an APK first try out some other tools for deobfuscation: [Obfu[DE]scate](https://github.com/user1342/Obfu-DE-Scate), [TinySmaliEmulator](https://github.com/amoulu/TinySmaliEmulator), [simplify](https://github.com/CalebFenton/simplify), and [deoptfuscator](https://github.com/Gyoonus/deoptfuscator). 
+
+The strings used for this matching can be seen below:
 
 <details>
 
