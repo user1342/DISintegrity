@@ -109,14 +109,15 @@ def extract_apk(apk_file_path, output_dir, apk_tool_executable):
     if apk_tool_executable.endswith(".jar"):
         apk_tool_executable = f"java -jar {apk_tool_executable}"
 
-    shell_command = f"{apk_tool_executable} d -f {apk_file_path} -o {output_dir}"
-    with subprocess.Popen(shell_command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                          stderr=subprocess.PIPE, universal_newlines=True) as process:
+    with subprocess.Popen([apk_tool_executable, "d", apk_file_path, "-o", output_dir], stdin=subprocess.PIPE,
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
         stdout, stderr = process.communicate(input="\n")
         if process.returncode != 0:
             print("An error occurred while running apktool for APK:")
             print(stderr)
             exit(1)
+
+
 
 
 def check_apktool_on_path():
