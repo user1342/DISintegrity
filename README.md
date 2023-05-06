@@ -53,7 +53,8 @@ python DISintegrity.py -apk <path to apk>
 </p>
 
 # 🔎 Behind The Scenes
-DIS{integrity} performs string pattern matching against symbols found in files inside of the APK. When these are matched against strings inside of SMALI files they are listed in the output with a codeblock of the SMALI, while when found as a string in anouther (i.e. ```.so``` or ```.bin``` file) the file location is displayed. The strings used for this matching can be seen below:
+DIS{Integrity} performs string pattern matching against symbols found in files inside of the APK. When these are matched against strings inside of SMALI files, they are listed in the output with a code block of the SMALI, while when found as a string in another (i.e. ```.so``` or ```.bin``` file), the file location is displayed. The strings used for this matching can be seen below:
+
 <details>
 
 ```
