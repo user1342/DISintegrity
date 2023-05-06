@@ -52,6 +52,74 @@ python DISintegrity.py -apk <path to apk>
   <img src="demo.gif" width="800" />
 </p>
 
+# 🔎 Behind The Scenes
+DIS{integrity} performs string pattern matching against symbols found in files inside of the APK. When these are matched against strings inside of SMALI files they are listed in the output with a codeblock of the SMALI, while when found as a string in anouther (i.e. ```.so``` or ```.bin``` file) the file location is displayed. The strings used for this matching can be seen below:
+<details>
+
+```
+    [("SafetyNet", "Google Play SafetyNet"),  # Google Play SafetyNet API for checking device integrity
+    ("safetynet", "Google Play SafetyNet"),  # Same as above, but with lowercase
+    ("Safety Detect", "Huawei Safety Detect"),  # Huawei's safety detection API for detecting rooted devices
+    ("safetydetect", "Huawei Safety Detect"),  # Same as above, but with lowercase
+    ("RootBeer", "RootBeer"),  # RootBeer library for detecting rooted devices
+    ("rootbeer", "RootBeer"),  # Same as above, but with lowercase
+    ("isDeviceRooted", "Proprietary"),  # Custom code to check if device is rooted
+    ("isRooted", "Proprietary"),  # Same as above, but shorter
+    ("RootChecker", "Proprietary"),  # Custom code for checking if device is rooted
+    ("checkRoot", "Proprietary"),  # Same as above, but shorter
+    ("detectRoot", "Proprietary"),  # Custom code for detecting rooted devices
+    ("detectTamper", "Proprietary"),  # Custom code for detecting if app has been tampered with
+    ("tamperDetection", "Proprietary"),  # Custom code for detecting if app has been tampered with
+    ("detectEmulator", "Proprietary"),  # Custom code for detecting if app is running on an emulator
+    ("checkEmulator", "Proprietary"),  # Same as above, but shorter
+    ("isEmulator", "Proprietary"),  # Same as above, but shorter
+    ("rootCheck", "Proprietary"),  # Custom code for checking if device is rooted
+    ("rootDetection", "Proprietary"),  # Custom code for detecting rooted devices
+    ("rootedDevice", "Proprietary"),  # Custom code for checking if device is rooted
+    ("isDeviceCompromised", "Proprietary"),  # Custom code for checking if device is compromised
+    ("rootConfirmation", "Proprietary"),  # Custom code for confirming if device is rooted
+    ("rootStatus", "Proprietary"),  # Custom code for checking root status
+    ("isDeviceJailbroken", "Proprietary"),  # Custom code for checking if device is jailbroken
+    ("jailbreakDetection", "Proprietary"),  # Custom code for detecting jailbroken devices
+    ("checkJailbreak", "Proprietary"),  # Same as above, but shorter
+    ("detectJailbreak", "Proprietary"),  # Same as above, but shorter
+    ("isDeviceSecure", "Proprietary"),  # Custom code for checking device security
+    ("deviceIntegrity", "Proprietary"),  # Custom code for checking device integrity
+    ("integrityCheck", "Proprietary"),  # Custom code for checking device integrity
+    ("systemIntegrity", "Proprietary"),  # Custom code for checking system integrity
+    ("suBinary", "Proprietary"),  # Custom code for checking if su binary is installed
+    ("superuser", "Proprietary"),  # Custom code for checking if Superuser app is installed
+    ("magisk", "Magisk"),  # Magisk root management tool
+    ("MagiskHide", "Magisk"),  # Magisk feature for hiding root from apps
+    ("magiskhide", "Magisk"),  # Magisk feature for hiding root from apps
+    ("deviceRootStatus", "Proprietary"),  # Custom code for checking device root status
+    ("rootScanner", "Proprietary"),  # Custom code for scanning device for root
+    ("rootAnalyzer", "Proprietary"),  # Custom code for analyzing device for root
+    ("rootAssessment", "Proprietary"),  # Custom code for assessing device for root
+    ("rootGuard", "Proprietary"),  # Custom code for guarding against root access
+    ("rootValidator", "Proprietary"),  # Custom code for validating root status
+    ("jailbreakStatus", "Proprietary"),  # Custom code for checking jailbreak status
+    ("jailbreakCheck", "Proprietary"),  # Custom code for checking if device is jailbroken
+    ("jailbreakScanner", "Proprietary"),  # Custom code for scanning device for jailbreak
+    ("jailbreakGuard", "Proprietary"),  # Custom code for guarding against jailbreak
+    ("isRootPresent", "Proprietary"),  # Custom code for checking if root is present
+    ("rootPresence", "Proprietary"),  # Custom code for checking root presence
+    ("rootVerifier", "Proprietary"),  # Custom code for verifying root status
+    ("jailbreakVerifier", "Proprietary"),  # Custom code for verifying jailbreak status
+    ("rootRisk", "Proprietary"),  # Custom code for assessing risk of root access
+    ("jailbreakRisk", "Proprietary"),  # Custom code for assessing risk of jailbreak
+    ("rootProber", "Proprietary"),  # Custom code for probing device for root
+    ("rootTest", "Proprietary"),  # Custom code for testing if device is rooted
+    ("jailbreakTest", "Proprietary"),  # Custom code for testing if device is jailbroken
+    ("rootDetectionCheck", "Proprietary"),  # Custom code for checking if root is detected
+    ("rootcloak", "Proprietary"),  # Custom code for cloaking root from apps
+    ("rootcloakplus", "Proprietary"),  # Custom code for cloaking root from apps
+    ("daemonsu", "Proprietary"),  # Custom code for managing su binary
+    ("jailbreakDetectionCheck", "Proprietary"),  # Custom code for checking if jailbreak is detected
+    ]
+```
+</details>
+
 # 🙏 Contributions
 DIS{integrity} is an open-source project and welcomes contributions from the community. If you would like to contribute to DIS{integrity}, please follow these guidelines:
 
