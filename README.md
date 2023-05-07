@@ -14,7 +14,7 @@
 
 </div>
 
-DIS{integrity} is a tool for analyzing Android APKs, focusing on identifying root, integrity, and tamper detection checks inside of the APK. It uses APKTool to break down APK files and extracts data from Android manifests, smali code, and other resources to identify these security checks. The tool generates an easy-to-understand HTML report, helping offensive security researchers identify root and tamper detection checks in APKs for ptaching, hooking, and mitigating.
+DIS{integrity} is a tool for analyzing Android APKs, focusing on identifying root, integrity, and tamper detection checks inside of the APK. It uses APKTool to break down APK files and extracts data from Android manifests, smali code, and other resources to identify these security checks. The tool generates an easy-to-understand HTML report, helping offensive security researchers identify root and tamper detection checks in APKs for patching, hooking, and mitigating.
 
 # ➡️ Getting Started
 ## Installation
