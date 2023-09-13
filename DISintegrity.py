@@ -107,9 +107,9 @@ def extract_apk(apk_file_path, output_dir, apk_tool_executable):
     print(f"Extracting APK at '{apk_file_path}'. This may take some time...")
 
     if apk_tool_executable.endswith(".jar"):
-        apk_tool_executable = f"java -jar {apk_tool_executable}"
+        apk_tool_executable = f"{apk_tool_executable}"
 
-    with subprocess.Popen([apk_tool_executable, "d", apk_file_path, "-o", output_dir], stdin=subprocess.PIPE,
+    with subprocess.Popen(["java", "-jar", apk_tool_executable, "d", apk_file_path, "-o", output_dir, "-f"], stdin=subprocess.PIPE,
                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True) as process:
         stdout, stderr = process.communicate(input="\n")
         if process.returncode != 0:
