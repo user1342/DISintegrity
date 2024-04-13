@@ -12,7 +12,7 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/user1342/DISintegrity?style=social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/user1342/DISintegrity)
 <br>
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P7C2MM6)
+
 </div>
 
 DIS{integrity} is a tool for analyzing Android APKs, focusing on identifying root, integrity, and tamper detection checks inside of the APK. It uses APKTool to break down APK files and extracts data from Android manifests, smali code, and other resources to identify these security checks. The tool generates an easy-to-understand HTML report, helping offensive security researchers identify root and tamper detection checks in APKs for patching, hooking, and mitigating.
