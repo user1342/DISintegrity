@@ -1,2 +1,3 @@
 jinja2
 tqdm
+androguard==3.3.5
