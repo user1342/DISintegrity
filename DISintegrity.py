@@ -247,7 +247,7 @@ def create_html_file(detected_smali_files, detected_binary_files, output_dir):
 </head>
 <body style="font-family: Arial, sans-serif;">
     <h1>DIS{integrity} - Root and Tamper Detection Checks</h1>
-    <h2>In SMALI files:</h2>43  
+    <h2>In SMALI files:</h2>  
     <ul>
         {% for file, results in detected_smali_files.items() %}
         <li>
